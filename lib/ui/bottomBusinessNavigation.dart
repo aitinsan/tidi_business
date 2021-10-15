@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tidi_business/ui/profile/profile.screen.dart';
 
@@ -18,6 +20,29 @@ class _HomeBusinessState extends State<HomeBusiness> {
   int currentTab = 0; // to keep track of active tab index
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = BasketScreen(); // Our first view in viewport
+
+  String barcodeScanRes = "";
+
+  TextEditingController codeController = TextEditingController();
+
+  Future<void> scanBarcodeNormal() async {
+    try {
+      barcodeScanRes =
+          await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      if (barcodeScanRes == "-1") {
+        barcodeScanRes = "Номер штрихкода";
+      }
+      codeController.text = barcodeScanRes;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +191,47 @@ class _HomeBusinessState extends State<HomeBusiness> {
                             ),
                           ),
                         ),
+                        InkWell(
+                          onTap: () {
+                            scanBarcodeNormal();
+                            print("hello");
+                          },
+                          child: IgnorePointer(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: TextField(
+                                readOnly: true,
+                                controller: codeController,
+                                style: TextStyle(
+                                  color: HomeBankColor.white,
+                                ),
+                                decoration: const InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.qr_code_scanner_rounded,
+                                    color: HomeBankColor.white,
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: HomeBankColor.white, width: 1.0),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: HomeBankColor.white, width: 1.0),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  hintStyle: TextStyle(color: HomeBankColor.white),
+                                  fillColor: HomeBankColor.red,
+                                  focusColor: HomeBankColor.red,
+                                  hintText: 'Номер штрихкода',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: TextField(
@@ -296,6 +362,46 @@ class _HomeBusinessState extends State<HomeBusiness> {
                   ],
                 ),
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CodeContainer extends StatelessWidget {
+  final String code;
+  final void Function() onTap;
+
+  const CodeContainer({Key key, this.code, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+            color: HomeBankColor.red,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: HomeBankColor.white, width: 1.0),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                code,
+                style: TextStyle(color: HomeBankColor.white),
+              ),
+              Icon(
+                Icons.qr_code_scanner_rounded,
+                color: HomeBankColor.white,
+              )
             ],
           ),
         ),
