@@ -37,13 +37,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
               image: "assets/image/im_product.png",
               title: "Minavi Headseat Pro Gaming",
               name: "Alex",
+              iin: "001100330044",
               stars: index + 1,
             );
           }),
     );
   }
 
-  Widget buildProductCard({String image, String title, String name, int stars}) {
+  Widget buildProductCard({String image, String title, String name, String iin, int stars}) {
     return Padding(
       padding: EdgeInsets.only(top: 10, left: 16, right: 16, bottom: 10),
       child: Card(
@@ -89,13 +90,25 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       SizedBox(
                         height: 6,
                       ),
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: HomeBankColor.black,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            name,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: HomeBankColor.black,
+                            ),
+                          ),
+                          Text(
+                            iin,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: HomeBankColor.black,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 6,
