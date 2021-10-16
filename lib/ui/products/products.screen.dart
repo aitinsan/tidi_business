@@ -91,6 +91,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         height: 6,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             name,
@@ -103,7 +104,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           Text(
                             iin,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: HomeBankColor.black,
                             ),
