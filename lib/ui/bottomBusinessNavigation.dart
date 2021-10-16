@@ -47,6 +47,7 @@ class _HomeBusinessState extends State<HomeBusiness> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: currentScreen,
       floatingActionButton: FloatingActionButton(
         backgroundColor: HomeBankColor.red,

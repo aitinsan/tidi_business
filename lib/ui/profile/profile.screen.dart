@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tidi_business/ui/products/products.screen.dart';
 
 import '../style/colors.dart';
 
@@ -56,7 +57,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: "Контактная информация",
                       onClick: () {}),
                   buildRequestTablet(
-                      icon: "assets/icon/ic_funding.svg", title: "Товары", onClick: () {}),
+                      icon: "assets/icon/ic_funding.svg",
+                      title: "Товары",
+                      onClick: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => ProductsScreen()));
+                      }),
                   buildRequestTablet(
                       icon: "assets/icon/ic_bank.svg", title: "О банке", onClick: () {}),
                   buildRequestTablet(
